@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Discapp.Shared.Data;
 using Discapp.API.Models;
+using Discapp.API.Interfaces;
+using Discapp.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     b => b.MigrationsAssembly("Discapp.API")));
 
 builder.Services.AddSingleton(new PathSettings { ImagePath = imageStoragePath ?? "." });
+
+builder.Services.AddHttpClient(); // Needed by OAuthService
+builder.Services.AddScoped<IOAuthService, OAuthService>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
